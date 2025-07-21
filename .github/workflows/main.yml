@@ -24,7 +24,7 @@ jobs:
         pip install pytrends feedparser google-generativeai requests python-dotenv
 
     - name: Run script
-      run: python script.py
+  run: python main.py
 
     - name: Upload result (Optional)
       if: always()
