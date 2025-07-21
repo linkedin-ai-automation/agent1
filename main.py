@@ -5,15 +5,14 @@ from pytrends.request import TrendReq
 import feedparser
 import google.generativeai as genai
 
-# 🌐 Load API keys
+# Load API keys
 load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 PEXELS_KEY = os.getenv("PEXELS_API_KEY")
 
-# 🤖 Configure Gemini
+# Configure Gemini
 genai.configure(api_key=GEMINI_API_KEY)
 
-# 🔍 Get trending VLSI topics
 def get_top_vlsi_trends():
     pytrends = TrendReq()
     pytrends.build_payload(['VLSI design'], timeframe='now 7-d')
@@ -23,7 +22,6 @@ def get_top_vlsi_trends():
     except:
         return ["VLSI Design", "Semiconductor Fabrication", "Chip Architecture"]
 
-# 📚 Fetch latest VLSI articles
 def get_latest_vlsi_articles():
     feed = feedparser.parse('https://spectrum.ieee.org/rss/semiconductors.xml')
     return [{
@@ -32,7 +30,6 @@ def get_latest_vlsi_articles():
         "summary": entry.summary
     } for entry in feed.entries[:5]]
 
-# ✍️ Generate LinkedIn post using Gemini
 def generate_post(topic, summary):
     model = genai.GenerativeModel('gemini-pro')
     prompt = f"""
@@ -44,7 +41,6 @@ Include a strong opening, 1–2 insights, and a call to action or question.
     response = model.generate_content(prompt)
     return response.text.strip()
 
-# 🖼️ Get photo or video URL from Pexels
 def get_media_url(query, media_type="photo"):
     headers = {
         "Authorization": PEXELS_KEY
@@ -62,7 +58,6 @@ def get_media_url(query, media_type="photo"):
         data = response.json()
         return data['videos'][0]['video_files'][0]['link'] if data.get('videos') else None
 
-# 🤖 Main generator
 def create_ai_generated_post(media_type="photo"):
     trends = get_top_vlsi_trends()
     articles = get_latest_vlsi_articles()
@@ -82,27 +77,9 @@ def create_ai_generated_post(media_type="photo"):
         "source_link": article['link']
     }
 
-# ▶️ Run it
 if __name__ == "__main__":
-    data = create_ai_generated_post(media_type="photo")  # change to "video" if needed
-    print("\n🧠 Topic:", data['topic'])
-    print("\n📝 Post:\n", data['post'])
-    print("\n🎥 Media:", data['media_url'])
-    print("\n🔗 Source:", data['source_link'])
-📌 Notes:
-Make sure you have a .env file in the same directory with:
-
-env
-Copy
-Edit
-GEMINI_API_KEY=your_gemini_api_key
-PEXELS_API_KEY=your_pexels_api_key
-Dependencies to include in your requirements.txt:
-
-Copy
-Edit
-python-dotenv
-requests
-feedparser
-pytrends
-google-generativeai
+    data = create_ai_generated_post(media_type="photo")
+    print("\nTopic:", data['topic'])
+    print("\nPost:\n", data['post'])
+    print("\nMedia:", data['media_url'])
+    print("\nSource:", data['source_link'])
