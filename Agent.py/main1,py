@@ -1,0 +1,14 @@
+import feedparser
+
+# Choose your RSS URL
+rss_url = "https://spectrum.ieee.org/rss/semiconductors.xml"
+
+# Parse the feed
+feed = feedparser.parse(rss_url)
+
+# Print top 5 article titles and links
+for entry in feed.entries[:5]:
+    print(f"Title: {entry.title}")
+    print(f"Link: {entry.link}")
+    print("-" * 50)
+    
