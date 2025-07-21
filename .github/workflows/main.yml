@@ -2,16 +2,20 @@ name: Auto Generate LinkedIn Post
 
 on:
   schedule:
-    - cron: '0 9 * * *'  # every day at 9 AM UTC
-  workflow_dispatch:      # allow manual runs
+    - cron: '0 9 * * *'  # Run every day at 9 AM UTC
+  workflow_dispatch:      # Allow manual trigger
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4  # ✅ Correct GitHub code checkout
+      uses: actions/checkout@v4
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -24,11 +28,11 @@ jobs:
         pip install pytrends feedparser google-generativeai requests python-dotenv
 
     - name: Run script
-  run: python main.py
+      run: python main.py
 
     - name: Upload result (Optional)
       if: always()
-      uses: actions/upload-artifact@v4  # ✅ Updated to v4
+      uses: actions/upload-artifact@v4
       with:
         name: post-output
         path: post.txt
