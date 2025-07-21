@@ -70,7 +70,8 @@ def create_ai_generated_post(media_type="photo"):
     topic = trends[0]
     if not articles:
         raise ValueError("No articles found. Check your data source or feed.")
-article = articles[0]
+    
+    article = articles[0]
     media_url = get_media_url(topic, media_type=media_type)
     post_text = generate_post(topic, article['summary'])
 
