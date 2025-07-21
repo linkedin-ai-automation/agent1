@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Checkout code
-       uses: actions/upload-artifact@v4
+      uses: actions/checkout@v4  # ✅ Correct GitHub code checkout
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -28,8 +28,7 @@ jobs:
 
     - name: Upload result (Optional)
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4  # ✅ Updated to v4
       with:
         name: post-output
-        path: post.txt 
-        
+        path: post.txt
