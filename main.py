@@ -24,6 +24,17 @@ def get_top_vlsi_trends():
 
 def get_latest_vlsi_articles():
     feed = feedparser.parse('https://spectrum.ieee.org/rss/semiconductors.xml')
+    
+    if not feed.entries:
+        print("⚠️ No RSS feed entries found. Using fallback data.")
+        # 🔁 fallback hardcoded article
+        return [{
+            "title": "The Future of VLSI",
+            "link": "https://example.com/future-vlsi",
+            "summary": "A quick summary about advances in VLSI design and fabrication."
+        }]
+    
+    # ✅ real data if available
     return [{
         "title": entry.title,
         "link": entry.link,
