@@ -70,7 +70,7 @@ def create_ai_generated_post(media_type="photo"):
     topic = trends[0]
     if not articles:
         raise ValueError("No articles found. Check your data source or feed.")
-    
+
     article = articles[0]
     media_url = get_media_url(topic, media_type=media_type)
     post_text = generate_post(topic, article['summary'])
@@ -84,9 +84,25 @@ def create_ai_generated_post(media_type="photo"):
 
 # ▶️ Run it
 if __name__ == "__main__":
-    data = create_ai_generated_post(media_type="photo")  # change to "video" if you want
+    data = create_ai_generated_post(media_type="photo")  # change to "video" if needed
     print("\n🧠 Topic:", data['topic'])
     print("\n📝 Post:\n", data['post'])
     print("\n🎥 Media:", data['media_url'])
     print("\n🔗 Source:", data['source_link'])
+📌 Notes:
+Make sure you have a .env file in the same directory with:
 
+env
+Copy
+Edit
+GEMINI_API_KEY=your_gemini_api_key
+PEXELS_API_KEY=your_pexels_api_key
+Dependencies to include in your requirements.txt:
+
+Copy
+Edit
+python-dotenv
+requests
+feedparser
+pytrends
+google-generativeai
